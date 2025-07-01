@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: #f3f3f3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      background-color: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 25px;
+    }
+
+    form {
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-size: 0.9rem;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #2f3a8f;
+      color: white;
+      border: none;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .terms {
+      font-size: 0.8rem;
+      color: #777;
+      margin-top: 15px;
+    }
+
+    .terms a {
+      color: #2f3a8f;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Create an account</h2>
+    <p>Create a free account to explore stock products and rewards</p>
+
+    <form id="signupForm" onsubmit="event.preventDefault(); signUp();">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" placeholder="John Doe" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="example@mail.com" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Create a password" required>
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" placeholder="+1234567890" required>
+
+      <button type="submit" class="btn">Sign Up</button>
+    </form>
+
+    <p class="terms">
+      By creating an account, you agree to the 
+      <a href="#">Terms of use</a> and 
+      <a href="#">Privacy Policy</a>.
+    </p>
+  </div>
+
+  <script>
+    const API_KEY = "AIzaSyA5rbRxu9ZXMbqLXuKb0te4kg83mLPfjEk"; // Replace with your real API key
+
+    function signUp() {
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const phone = document.getElementById("phone").value;
+
+      fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password,
+          returnSecureToken: true
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          alert("Sign Up Failed: " + data.error.message);
+        } else {
+          // 1. Save name and phone to localStorage
+          localStorage.setItem("userEmail", email);
+          localStorage.setItem("userName", name);
+          localStorage.setItem("phone", phone);
+          localStorage.setItem("idToken", data.idToken);
+
+          // 2. OPTIONAL: Set displayName in Firebase using updateProfile (requires authenticated session)
+
+          alert("Account created successfully!");
+          window.location.href = "home1.html";
+        }
+      })
+      .catch(err => {
+        alert("Error: " + err.message);
+      });
+    }
+  </script>
+</body>
+</html>
