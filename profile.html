@@ -307,7 +307,7 @@ body.dark-mode input[type="text"] {
   // Redirect to signin.html if user is not logged in
   const token = localStorage.getItem("idToken");
   if (!token) {
-    window.location.href = "final project.html";
+    window.location.href = "index.html";
   }
 
   // Handle logout when user clicks "Log Out" button
@@ -315,7 +315,7 @@ body.dark-mode input[type="text"] {
     localStorage.removeItem("idToken");
     localStorage.removeItem("userEmail");
     localStorage.removeItem("phone");
-    window.location.href = "final project.html";
+    window.location.href = "index.html";
   });
 </script>
 
